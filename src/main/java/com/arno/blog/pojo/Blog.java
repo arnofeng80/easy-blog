@@ -2,6 +2,12 @@ package com.arno.blog.pojo;
 
 import java.io.Serializable;
 
+import com.arno.blog.framework.annotation.Column;
+import com.arno.blog.framework.annotation.Id;
+import com.arno.blog.framework.annotation.LogicDelete;
+import com.arno.blog.framework.annotation.Table;
+import com.arno.blog.framework.annotation.Version;
+
 import lombok.Data;
 
 /**
@@ -18,9 +24,9 @@ import lombok.Data;
 @Table(name = "bl_blog")
 public class Blog implements Serializable {
 
-    private static final long serialVersionUID = -559415810554538278L;
+	private static final long serialVersionUID = -69079434283465967L;
 
-    /**
+	/**
      * 帖子id
      */
     @Id
@@ -69,7 +75,7 @@ public class Blog implements Serializable {
     @Column(name = "blog_type")
     private Integer blogType;
 
-    @Column(insertAble = false, updatable = false)
+    @Column(insertable = false, updatable = false)
     private Type type;
 
     /**
@@ -115,6 +121,5 @@ public class Blog implements Serializable {
     @Column(name = "deleted")
     @LogicDelete
     private Integer deleted;
-
 }
 
