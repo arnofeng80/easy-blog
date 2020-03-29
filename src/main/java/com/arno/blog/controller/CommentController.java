@@ -1,10 +1,14 @@
 package com.arno.blog.controller;
 
-import com.arno.blog.framework.utils.Pageable;
+import com.arno.blog.enums.ResultEnum;
 import com.arno.blog.pojo.Comment;
-import com.arno.blog.pojo.Result;
+import com.arno.blog.pojo.CommentGoods;
+import com.arno.blog.pojo.User;
 import com.arno.blog.service.CommentService;
-import lombok.extern.slf4j.Slf4j;
+import com.arno.blog.utils.Page;
+import com.arno.blog.utils.Result;
+import com.arno.blog.utils.ShiroUtils;
+import com.arno.blog.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,18 +16,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
- * <p>
- * 評論表前端控制器
- * </p>
- *
- * @author 稽哥
- * @date 2020-02-07 14:04:12
+ * @Author: 杨德石
+ * @Date: 2020/2/15 22:21
  * @Version 1.0
  */
 @RestController
 @RequestMapping("/comment")
-@Slf4j
 public class CommentController {
 
     @Autowired
@@ -37,57 +38,75 @@ public class CommentController {
      */
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public Result<Object> save(@RequestBody Comment comment) {
+        User user = (User) ShiroUtils.getLoginUser();
+        comment.setCommentUser(user.getUserId());
+        if (StringUtils.isBlank(comment.getCommentBlog())) {
+            return new Result<>(ResultEnum.PARAMS_NULL.getCode(), "博客id不能为空！");
+        }
         commentService.save(comment);
-        return new Result<>("添加成功！");
+        return new Result<>("评论成功！");
     }
 
     /**
-     * 更新
+     * 查询当前博客的评论
      *
-     * @param comment
+     * @param blogId
      * @return
      */
-    @RequestMapping(value = "/update", method = RequestMethod.PUT)
-    public Result<Object> update(@RequestBody Comment comment) {
-        commentService.update(comment);
-        return new Result<>("更新成功！");
+    @RequestMapping(value = "/getByBlog/{blogId}", method = RequestMethod.GET)
+    public Result<List<Comment>> getByBlog(@PathVariable String blogId) {
+        List<Comment> comments = commentService.getByBlog(blogId);
+        return new Result<>(comments);
     }
 
     /**
-     * 根據id查詢
+     * 根据id删除
      *
      * @param id
      * @return
      */
-    @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
-    public Result<Comment> get(@PathVariable String id) {
-        Comment comment = commentService.findById(id);
-        return new Result<>(comment);
+    @RequestMapping(value = "/deleteById/{id}", method = RequestMethod.DELETE)
+    public Result<Object> deleteById(@PathVariable String id) {
+        commentService.deleteById(id);
+        return new Result<>("删除成功！");
     }
 
     /**
-     * 分頁查詢
+     * 点赞
+     *
+     * @param commentGoods
+     * @return
+     */
+    @RequestMapping(value = "/good", method = RequestMethod.POST)
+    public Result<Object> good(@RequestBody CommentGoods commentGoods) {
+        if (StringUtils.isBlank(commentGoods.getCommentId())) {
+            return new Result<>("评论id不能为空！");
+        }
+        commentService.goodByCommentIdAndUser(commentGoods);
+        return new Result<>("点赞成功！");
+    }
+
+    /**
+     * 分页查询
      *
      * @param page
      * @return
      */
-    @RequestMapping(value = "/getByPage", method = RequestMethod.POST)
-    public Result<Pageable<Comment>> getByPage(@RequestBody Pageable<Comment> page) {
-        page = commentService.findAutoByPage(page);
+    @RequestMapping(value = "/getList", method = RequestMethod.POST)
+    public Result<Page<Comment>> getList(@RequestBody Page<Comment> page) {
+        page = commentService.getByPage(page);
         return new Result<>(page);
     }
 
     /**
-     * 根據id刪除
-     *
-     * @param comment
+     * 后台分页查询
+     * @param page
      * @return
      */
-    @RequestMapping(value = "/delete", method = RequestMethod.PUT)
-    public Result<Object> delete(@RequestBody Comment comment) {
-        commentService.removeById(comment.getCommentId());
-        return new Result<>("刪除成功！");
+    @RequestMapping(value = "/getByPage", method = RequestMethod.POST)
+    public Result<Page<Comment>> getByPage(@RequestBody Page<Comment> page) {
+        page = commentService.getByPageBack(page);
+        return new Result<>(page);
     }
 
 }
-

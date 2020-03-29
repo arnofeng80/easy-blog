@@ -1,72 +1,56 @@
 package com.arno.blog.pojo;
 
-import java.io.Serializable;
-
-import com.arno.blog.framework.annotation.Column;
-import com.arno.blog.framework.annotation.GeneratedValue;
-import com.arno.blog.framework.annotation.GenerationType;
-import com.arno.blog.framework.annotation.Id;
-import com.arno.blog.framework.annotation.Table;
-
 import lombok.Data;
+
+import java.io.Serializable;
 
 /**
  * <p>
- * 管理員表實體類
+ * 管理员表实体类
  * </p>
  *
- * @author Arno
+ * @author 稽哥
  * @date 2020-02-07 14:04:12
  * @Version 1.0
- *
  */
 @Data
-@Table(name = "bl_admin")
 public class Admin implements Serializable {
 
     private static final long serialVersionUID = 169915810554522554L;
 
     /**
-     * 管理員id
+     * 管理员id
      */
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Integer id;
 
     /**
      * 姓名
      */
-    @Column(name = "name")
     private String name;
 
     /**
-     * 頭像
+     * 头像
      */
-    @Column(name = "header")
     private String header;
 
     /**
-     * 簽名
+     * 签名
      */
-    @Column(name = "signature")
     private String signature;
 
     /**
-     * 介紹
+     * 介绍
      */
-    @Column(name = "comment")
     private String comment;
 
     /**
-     * 帳號
+     * 账号
      */
-    @Column(name = "username")
     private String username;
 
     /**
-     * 密碼
+     * 密码
      */
-    @Column(name = "password")
     private String password;
+
 }

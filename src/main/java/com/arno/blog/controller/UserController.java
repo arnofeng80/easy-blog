@@ -1,10 +1,16 @@
 package com.arno.blog.controller;
 
-import com.arno.blog.framework.utils.Pageable;
-import com.arno.blog.pojo.Result;
+import com.arno.blog.enums.ResultEnum;
+import com.arno.blog.enums.StateEnums;
 import com.arno.blog.pojo.User;
 import com.arno.blog.service.UserService;
-import lombok.extern.slf4j.Slf4j;
+import com.arno.blog.token.UsernamePasswordToken;
+import com.arno.blog.utils.Page;
+import com.arno.blog.utils.Result;
+import com.arno.blog.utils.StringUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,18 +18,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.Serializable;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
- * <p>
- * 用戶表前端控制器
- * </p>
- *
- * @author 稽哥
- * @date 2020-02-07 14:04:12
+ * @Author: 杨德石
+ * @Date: 2020/2/9 20:45
  * @Version 1.0
  */
 @RestController
 @RequestMapping("/user")
-@Slf4j
 public class UserController {
 
     @Autowired
@@ -50,44 +57,123 @@ public class UserController {
     @RequestMapping(value = "/update", method = RequestMethod.PUT)
     public Result<Object> update(@RequestBody User user) {
         userService.update(user);
-        return new Result<>("更新成功！");
+        return new Result<>("修改成功！");
     }
 
     /**
-     * 根據id查詢
+     * 修改个人信息
+     *
+     * @param user
+     * @return
+     */
+    @RequestMapping(value = "/updateInfo", method = RequestMethod.PUT)
+    public Result<Object> updateInfo(@RequestBody User user) {
+        userService.updateInfo(user);
+        return new Result<>("修改成功！");
+    }
+
+    /**
+     * 根据id查询
      *
      * @param id
      * @return
      */
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
     public Result<User> get(@PathVariable Integer id) {
-        User user = userService.findById(id);
+        User user = userService.getById(id);
         return new Result<>(user);
     }
 
     /**
-     * 分頁查詢
+     * 根据id删除
+     *
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+    public Result<Object> delete(@PathVariable Integer id) {
+        userService.deleteById(id);
+        return new Result<>("删除成功！");
+    }
+
+    /**
+     * 分页查询
      *
      * @param page
      * @return
      */
     @RequestMapping(value = "/getByPage", method = RequestMethod.POST)
-    public Result<Pageable<User>> getByPage(@RequestBody Pageable<User> page) {
-        page = userService.findAutoByPage(page);
+    public Result<Page<User>> getByPage(@RequestBody Page<User> page) {
+        String sortColumn = page.getSortColumn();
+        if (StringUtils.isNotBlank(sortColumn)) {
+            // 排序列不为空
+            String[] sortColumns = {"sex", "created_time", "update_time"};
+            List<String> sortList = Arrays.asList(sortColumns);
+            if (!sortList.contains(sortColumn.toLowerCase())) {
+                return new Result<>(ResultEnum.PARAMS_ERROR.getCode(), "排序参数不合法！");
+            }
+        }
+        page = userService.getByPage(page);
         return new Result<>(page);
     }
 
     /**
-     * 根據id刪除
+     * 重置密码
+     *
+     * @return
+     */
+    @RequestMapping(value = "/resetPwd", method = RequestMethod.PUT)
+    public Result<Object> resetPwd(@RequestBody List<Integer> userIds) {
+        userService.resetPwd(userIds);
+        return new Result<>("重置完毕！");
+    }
+
+    /**
+     * 注册
+     */
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public Result<Object> register(@RequestBody User user) {
+        userService.register(user);
+        return new Result<>("注册成功！");
+    }
+
+    /**
+     * 登录
      *
      * @param user
      * @return
      */
-    @RequestMapping(value = "/delete", method = RequestMethod.PUT)
-    public Result<Object> delete(@RequestBody User user) {
-        userService.removeById(user.getUserId());
-        return new Result<>("刪除成功！");
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public Result<Object> login(@RequestBody User user) {
+        if (user == null || StringUtils.isBlank(user.getUsername()) || StringUtils.isBlank(user.getPassword())) {
+            return new Result<>(ResultEnum.PARAMS_NULL.getCode(), "用户名或密码错误！");
+        }
+        Subject subject = SecurityUtils.getSubject();
+        AuthenticationToken authenticationToken = new UsernamePasswordToken(user.getUsername(), user.getPassword(), StateEnums.USER.getCode());
+        try {
+            subject.login(authenticationToken);
+        } catch (Exception e) {
+            return new Result<>(ResultEnum.PARAMS_NULL.getCode(), "用户名或密码错误！");
+        }
+        // 登录成功
+        Serializable sessionId = subject.getSession().getId();
+        User u = (User) subject.getPrincipal();
+        u.setPassword("");
+        u.setDeleted(null);
+        Map<String, Object> returnMap = new HashMap<>(2);
+        returnMap.put("token", sessionId);
+        returnMap.put("user", u);
+        return new Result<>(returnMap);
+    }
+
+    /**
+     * 查询当前用户的评论数和收藏数
+     * @return
+     */
+    @RequestMapping(value = "/commentAndCollectionCount", method = RequestMethod.GET)
+    public Result<Map<String, Object>> commentAndCollectionCount() {
+        Map<String, Object> countMap = userService.getCommentAndCollectionCount();
+        return new Result<>(countMap);
     }
 
 }
-

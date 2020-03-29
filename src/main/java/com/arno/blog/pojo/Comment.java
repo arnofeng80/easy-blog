@@ -1,72 +1,68 @@
 package com.arno.blog.pojo;
 
-import java.io.Serializable;
-
-import com.arno.blog.framework.annotation.Column;
-import com.arno.blog.framework.annotation.Id;
-import com.arno.blog.framework.annotation.LogicDelete;
-import com.arno.blog.framework.annotation.Table;
-
 import lombok.Data;
+import org.springframework.data.annotation.Id;
+
+import java.io.Serializable;
 
 /**
  * <p>
- * 評論表實體類
+ * 评论表实体类
  * </p>
  *
- * @author Arno
+ * @author 稽哥
  * @date 2020-02-07 14:04:12
  * @Version 1.0
- *
  */
 @Data
-@Table(name = "bl_comment")
 public class Comment implements Serializable {
 
-	private static final long serialVersionUID = 5173851776820392133L;
-
-	/**
-     * 評論id
-     */
-    @Id
-    @Column(name = "comment_id")
-    private String commentId;
+    private static final long serialVersionUID = -262115810554538289L;
 
     /**
-     * 評論內容
+     * 评论id
      */
-    @Column(name = "comment_content")
+    @Id
+    private String id;
+
+    /**
+     * 评论内容
+     */
     private String commentContent;
 
     /**
-     * 評價人
+     * 评价人
      */
-    @Column(name = "comment_user")
     private Integer commentUser;
 
     /**
-     * 評論帖子id
+     * 评价人
      */
-    @Column(name = "comment_blog")
+    private User user;
+
+    /**
+     * 评论帖子id
+     */
     private String commentBlog;
 
     /**
-     * 點贊數
+     * 评价帖子
      */
-    @Column(name = "comment_good")
+    private Blog blog;
+
+    /**
+     * 点赞数
+     */
     private Integer commentGood;
 
     /**
-     * 評論時間
+     * 评论时间
      */
-    @Column(name = "created_time")
     private String createdTime;
 
     /**
-     * 是否刪除，0否1是
+     * 是否评论，存库时，不存这个字段
+     * 当查询用户评论情况时，对这个字段进行赋值
      */
-    @Column(name = "deleted")
-    @LogicDelete
-    private Integer deleted;
-
+    private boolean commentFlag = false;
 }

@@ -1,25 +1,30 @@
 package com.arno.blog.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.arno.blog.framework.utils.Pageable;
+import com.arno.blog.excel.entity.ExportParams;
+import com.arno.blog.excel.handler.ExcelExportHandler;
 import com.arno.blog.mapper.LogMapper;
 import com.arno.blog.pojo.Log;
 import com.arno.blog.service.LogService;
+import com.arno.blog.utils.Page;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * <p>
- * 接口访问日志表Service實現類
+ * 接口访问日志表服务实现类
  * </p>
  *
- * @author Arno
- * @date 2020-03-27
+ * @author 稽哥
+ * @date 2020-02-07 14:04:12
  * @Version 1.0
  *
  */
 @Service
+@Slf4j
 public class LogServiceImpl implements LogService {
 
     @Autowired
@@ -27,57 +32,37 @@ public class LogServiceImpl implements LogService {
 
     /**
      * 保存
-     *
-     * @param log
+     * @param logger
      */
     @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void save(Log log) {
-        logMapper.save(log);
+    public void save(Log logger) {
+        logMapper.save(logger);
     }
 
-    /**
-     * 更新
-     *
-     * @param log
-     */
     @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void update(Log log) {
-        logMapper.update(log);
+    public Page<Log> getByPage(Page<Log> page) {
+        // 查询数据
+        List<Log> logList = logMapper.getByPage(page);
+        page.setList(logList);
+        // 查询总数
+        int totalCount = logMapper.getCountByPage(page);
+        page.setTotalCount(totalCount);
+        return page;
     }
 
-    /**
-     * 根據id查詢
-     *
-     * @param id
-     * @return
-     */
     @Override
-    public Log findById(Integer id) {
-        return logMapper.findById(id);
+    public void deleteById(Integer id) {
+        logMapper.deleteById(id);
     }
 
-    /**
-     * 分頁查詢
-     *
-     * @param page
-     * @return
-     */
     @Override
-    @Transactional(rollbackFor = Exception.class)
-    public Pageable<Log> findAutoByPage(Pageable<Log> page) {
-        return logMapper.findAutoByPage(page);
+    public void deleteByIds(List<Integer> ids) {
+        logMapper.deleteByIds(ids);
     }
 
-    /**
-     * 根據id刪除
-     *
-     * @param id
-     */
     @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void removeById(Integer id) {
-        logMapper.removeById(id);
+    public Workbook export() {
+        List<Log> logList = logMapper.getAll();
+        return new ExcelExportHandler().createSheet(new ExportParams("最新日志", "sheet1"), Log.class, logList);
     }
 }

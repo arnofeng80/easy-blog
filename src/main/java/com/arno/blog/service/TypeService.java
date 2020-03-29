@@ -1,63 +1,67 @@
 package com.arno.blog.service;
 
-import com.arno.blog.framework.utils.Pageable;
 import com.arno.blog.pojo.Type;
 
 import java.util.List;
 
 /**
  * <p>
- * 帖子类型表Service
+ * 帖子类型表服务层接口
  * </p>
  *
- * @author Arno
- * @date 2020-03-27
+ * @author 稽哥
+ * @date 2020-02-07 14:04:12
  * @Version 1.0
  *
  */
 public interface TypeService {
 
     /**
-     * 保存
-     *
+     * 添加
      * @param type
      */
     void save(Type type);
 
     /**
+     * 查询所有
+     * @return
+     */
+    List<Type> getAll();
+
+    /**
+     * 前台查询所有
+     * @return
+     */
+    List<Type> getTypeList();
+
+    /**
      * 更新
-     *
      * @param type
      */
     void update(Type type);
 
     /**
-     * 根據id查詢
-     *
+     * 根据id启用
+     * @param id
+     */
+    void enableById(Integer id);
+
+    /**
+     * 根据id弃用
+     * @param id
+     */
+    void disableById(Integer id);
+
+    /**
+     * 根据id删除
+     * @param id
+     */
+    void deleteById(Integer id);
+
+    /**
+     * 根据id查询
      * @param id
      * @return
      */
-    Type findById(Integer id);
-
-    /**
-     * 分頁查詢
-     *
-     * @param page
-     * @return
-     */
-    Pageable<Type> findAutoByPage(Pageable<Type> page);
-
-    /**
-     * 根據id刪除
-     *
-     * @param id
-     */
-    void removeById(Integer id);
-
-    /**
-     * 查詢所有
-     * @return
-     */
-    List<Type> getAll();
+    Type getById(Integer id);
 }
-

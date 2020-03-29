@@ -1,15 +1,18 @@
 package com.arno.blog.service;
 
-import com.arno.blog.framework.utils.Pageable;
 import com.arno.blog.pojo.Log;
+import com.arno.blog.utils.Page;
+import org.apache.poi.ss.usermodel.Workbook;
+
+import java.util.List;
 
 /**
  * <p>
- * 接口访问日志表Service
+ * 接口访问日志表服务层接口
  * </p>
  *
- * @author Arno
- * @date 2020-03-27
+ * @author 稽哥
+ * @date 2020-02-07 14:04:12
  * @Version 1.0
  *
  */
@@ -17,40 +20,32 @@ public interface LogService {
 
     /**
      * 保存
-     *
-     * @param log
+     * @param logger
      */
-    void save(Log log);
+    void save(Log logger);
 
     /**
-     * 更新
-     *
-     * @param log
-     */
-    void update(Log log);
-
-    /**
-     * 根據id查詢
-     *
-     * @param id
-     * @return
-     */
-    Log findById(Integer id);
-
-    /**
-     * 分頁查詢
-     *
+     * 分页查询
      * @param page
      * @return
      */
-    Pageable<Log> findAutoByPage(Pageable<Log> page);
+    Page<Log> getByPage(Page<Log> page);
 
     /**
-     * 根據id刪除
-     *
+     * 根据id删除
      * @param id
      */
-    void removeById(Integer id);
+    void deleteById(Integer id);
 
+    /**
+     * 根据id集合删除
+     * @param ids
+     */
+    void deleteByIds(List<Integer> ids);
+
+    /**
+     * 查询数据，构建成workbook用于导出
+     * @return
+     */
+    Workbook export();
 }
-

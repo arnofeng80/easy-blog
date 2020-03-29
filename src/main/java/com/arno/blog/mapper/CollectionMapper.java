@@ -2,21 +2,17 @@ package com.arno.blog.mapper;
 
 import org.springframework.stereotype.Component;
 
-import com.arno.blog.framework.mapper.MybatisMapper;
-import com.arno.blog.pojo.Collection;
-
 /**
  * <p>
- * 收藏時間Mapper
+ * 收藏时间Mapper
  * </p>
  *
- * @author Arno
- * @date 2020-03-27
+ * @author 稽哥
+ * @date 2020-02-07 14:04:12
  * @Version 1.0
  *
  */
 @Component
-public interface CollectionMapper extends MybatisMapper<Collection, Integer> {
+public interface CollectionMapper {
 
 }
-

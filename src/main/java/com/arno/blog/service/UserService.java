@@ -1,17 +1,19 @@
 package com.arno.blog.service;
 
-import com.arno.blog.framework.utils.Pageable;
 import com.arno.blog.pojo.User;
+import com.arno.blog.utils.Page;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
- * 用户表Service
+ * 用户表服务层接口
  * </p>
  *
- * @author Arno
- * @date 2020-03-27
+ * @author 稽哥
+ * @date 2020-02-07 14:04:12
  * @Version 1.0
- *
  */
 public interface UserService {
 
@@ -30,25 +32,56 @@ public interface UserService {
     void update(User user);
 
     /**
-     * 根據id查詢
+     * 根据id查询
      *
      * @param id
      * @return
      */
-    User findById(Integer id);
+    User getById(Integer id);
 
     /**
-     * 分頁查詢
+     * 根据id删除
+     *
+     * @param id
+     */
+    void deleteById(Integer id);
+
+    /**
+     * 分页查询
      *
      * @param page
      * @return
      */
-    Pageable<User> findAutoByPage(Pageable<User> page);
+    Page<User> getByPage(Page<User> page);
 
     /**
-     * 根據id刪除
-     *
-     * @param id
+     * 重置密码为123456
+     * @param userIds
      */
-    void removeById(Integer id);
+    void resetPwd(List<Integer> userIds);
+
+    /**
+     * 注册
+     * @param user
+     */
+    void register(User user);
+
+    /**
+     * 根据用户名查询
+     * @param username
+     * @return
+     */
+    User getByUsername(String username);
+
+    /**
+     * 修改个人信息
+     * @param user
+     */
+    void updateInfo(User user);
+
+    /**
+     * 查询评论数和收藏数
+     * @return
+     */
+    Map<String, Object> getCommentAndCollectionCount();
 }

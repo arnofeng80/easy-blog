@@ -1,56 +1,105 @@
 package com.arno.blog.service;
 
-import com.arno.blog.framework.utils.Pageable;
 import com.arno.blog.pojo.Blog;
+import com.arno.blog.pojo.BlogCollection;
+import com.arno.blog.pojo.BlogGoods;
+import com.arno.blog.utils.Page;
+import com.arno.blog.vo.BlogVo;
+
+import java.util.List;
 
 /**
  * <p>
- * 博客表Service
+ * 博客表服务层接口
  * </p>
  *
- * @author Arno
- * @date 2020-03-27
+ * @author 稽哥
+ * @date 2020-02-07 14:04:12
  * @Version 1.0
- *
  */
 public interface BlogService {
 
     /**
      * 保存
-     *
      * @param blog
      */
     void save(Blog blog);
 
     /**
+     * 根据id查询
+     * @param id
+     * @return
+     */
+    Blog getById(String id);
+
+    /**
      * 更新
-     *
      * @param blog
      */
     void update(Blog blog);
 
     /**
-     * 根據id查詢
-     *
+     * 阅读
      * @param id
      * @return
      */
-    Blog findById(String id);
+    BlogVo readById(String id);
 
     /**
-     * 分頁查詢
-     *
+     * 根据id删除
+     * @param id
+     */
+    void deleteById(String id);
+
+    /**
+     * 分页查询
      * @param page
      * @return
      */
-    Pageable<Blog> findAutoByPage(Pageable<Blog> page);
+    Page<BlogVo> getByPage(Page<BlogVo> page);
 
     /**
-     * 根據id刪除
-     *
-     * @param id
+     * 推荐阅读
+     * @return
      */
-    void removeById(String id);
+    List<BlogVo> recomRead();
 
+    /**
+     * 查询时间轴
+     * @return
+     */
+    List<BlogVo> getTimeLine();
+
+    /**
+     * 根据博客id和用户id点赞
+     * @param blogGoods
+     */
+    void goodByBlogAndUser(BlogGoods blogGoods);
+
+    /**
+     * 根据博客id查询点赞数
+     * @param blogId
+     * @return
+     */
+    int getGoodsCount(String blogId);
+
+    /**
+     * 收藏
+     * @param blogCollection
+     */
+    void collectionByBlogId(BlogCollection blogCollection);
+
+    /**
+     * 查询收藏数
+     * @param blogId
+     * @return
+     */
+    int getCollectionCount(String blogId);
+
+    /**
+     * 分页查询收藏
+     * @param page
+     * @return
+     */
+    Page<BlogCollection> getCollectionByPage(Page<BlogCollection> page);
 }
-

@@ -1,55 +1,66 @@
 package com.arno.blog.service;
 
-import com.arno.blog.framework.utils.Pageable;
 import com.arno.blog.pojo.Comment;
+import com.arno.blog.pojo.CommentGoods;
+import com.arno.blog.utils.Page;
+
+import java.util.List;
 
 /**
  * <p>
- * 评论表Service
+ * 评论表服务层接口
  * </p>
  *
- * @author Arno
- * @date 2020-03-27
+ * @author 稽哥
+ * @date 2020-02-07 14:04:12
  * @Version 1.0
  *
  */
 public interface CommentService {
 
     /**
-     * 保存
-     *
+     * 保存评论
      * @param comment
      */
     void save(Comment comment);
 
     /**
-     * 更新
-     *
-     * @param comment
-     */
-    void update(Comment comment);
-
-    /**
-     * 根據id查詢
-     *
-     * @param id
+     * 查询当前博客的评论
+     * @param blogId
      * @return
      */
-    Comment findById(String id);
+    List<Comment> getByBlog(String blogId);
 
     /**
-     * 分頁查詢
-     *
+     * 根据id删除
+     * @param id
+     */
+    void deleteById(String id);
+
+    /**
+     * 根据评论id和用户点赞
+     * @param commentGoods
+     */
+    void goodByCommentIdAndUser(CommentGoods commentGoods);
+
+    /**
+     * 根据评论id查询点赞数
+     * @param commentId
+     * @return
+     */
+    int getGoodsCount(String commentId);
+
+    /**
+     * 分页查询
      * @param page
      * @return
      */
-    Pageable<Comment> findAutoByPage(Pageable<Comment> page);
+    Page<Comment> getByPage(Page<Comment> page);
 
     /**
-     * 根據id刪除
-     *
-     * @param id
+     * 后台分页查询
+     * @param page
+     * @return
      */
-    void removeById(String id);
-
+    Page<Comment> getByPageBack(Page<Comment> page);
 }

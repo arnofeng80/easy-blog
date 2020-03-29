@@ -1,88 +1,31 @@
 package com.arno.blog.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.arno.blog.framework.utils.Pageable;
 import com.arno.blog.mapper.AdminMapper;
 import com.arno.blog.pojo.Admin;
 import com.arno.blog.service.AdminService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * <p>
- * 管理員表Service實現類
+ * 管理员表服务实现类
  * </p>
  *
- * @author Arno
- * @date 2020-03-27
+ * @author 稽哥
+ * @date 2020-02-07 14:04:12
  * @Version 1.0
- *
  */
 @Service
+@Slf4j
 public class AdminServiceImpl implements AdminService {
 
     @Autowired
     private AdminMapper adminMapper;
 
     /**
-     * 保存
+     * 根据用户名查询
      *
-     * @param admin
-     */
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void save(Admin admin) {
-        adminMapper.save(admin);
-    }
-
-    /**
-     * 更新
-     *
-     * @param admin
-     */
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void update(Admin admin) {
-        adminMapper.update(admin);
-    }
-
-    /**
-     * 根據id查詢
-     *
-     * @param id
-     * @return
-     */
-    @Override
-    public Admin findById(Integer id) {
-        return adminMapper.findById(id);
-    }
-
-    /**
-     * 分頁查詢
-     *
-     * @param page
-     * @return
-     */
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public Pageable<Admin> findAutoByPage(Pageable<Admin> page) {
-        return adminMapper.findAutoByPage(page);
-    }
-
-    /**
-     * 根據id刪除
-     *
-     * @param id
-     */
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void removeById(Integer id) {
-        adminMapper.removeById(id);
-    }
-
-    /**
-     * 根據用戶名查詢
      * @param username
      * @return
      */
@@ -91,5 +34,20 @@ public class AdminServiceImpl implements AdminService {
         return adminMapper.getByUsername(username);
     }
 
-}
+    @Override
+    public Admin getAdmin() {
+        return adminMapper.getAdmin();
+    }
 
+    @Override
+    public void updateInfo(Admin admin) {
+        adminMapper.update(admin);
+    }
+
+    @Override
+    public void updatePassword(Admin admin) {
+        Admin oldAdmin = adminMapper.getAdmin();
+        oldAdmin.setPassword(admin.getPassword());
+        adminMapper.update(oldAdmin);
+    }
+}

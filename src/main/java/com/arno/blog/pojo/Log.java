@@ -1,96 +1,80 @@
 package com.arno.blog.pojo;
 
-import java.io.Serializable;
-
-import com.arno.blog.framework.annotation.Column;
-import com.arno.blog.framework.annotation.GeneratedValue;
-import com.arno.blog.framework.annotation.GenerationType;
-import com.arno.blog.framework.annotation.Id;
-import com.arno.blog.framework.annotation.Table;
-
+import com.arno.blog.excel.annotation.Excel;
 import lombok.Data;
+
+import java.io.Serializable;
 
 /**
  * <p>
- * 介面訪問日誌表實體類
+ * 接口访问日志表实体类
  * </p>
  *
- * @author Arno
+ * @author 稽哥
  * @date 2020-02-07 14:04:12
  * @Version 1.0
- *
  */
 @Data
-@Table(name = "bl_log")
 public class Log implements Serializable {
 
-	private static final long serialVersionUID = 3344551717784614236L;
+    private static final long serialVersionUID = 762815810554536396L;
 
-	/**
-     * 日誌id
+    /**
+     * 日志id
      */
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "log_id")
+    @Excel(name = "编号")
     private Integer logId;
 
     /**
-     * 請求路徑
+     * 请求路径
      */
-    @Column(name = "log_url")
+    @Excel(name = "请求地址", autoSize = true)
     private String logUrl;
 
     /**
-     * 參數
+     * 参数
      */
-    @Column(name = "log_params")
     private String logParams;
 
     /**
-     * 訪問狀態，1正常0異常
+     * 访问状态，1正常0异常
      */
-    @Column(name = "log_status")
+    @Excel(name = "访问状态，1正常0异常")
     private Integer logStatus;
 
     /**
-     * 異常資訊
+     * 异常信息
      */
-    @Column(name = "log_message")
+    @Excel(name = "异常信息")
     private String logMessage;
 
     /**
-     * 請求方式，get、post等
+     * 请求方式，get、post等
      */
-    @Column(name = "log_method")
+    @Excel(name = "请求方式")
     private String logMethod;
 
     /**
-     * 回應時間
+     * 响应时间
      */
-    @Column(name = "log_time")
+    @Excel(name = "响应时间（毫秒）")
     private Long logTime;
 
     /**
      * 返回值
      */
-    @Column(name = "log_result")
     private String logResult;
 
     /**
-     * 請求ip
+     * 请求ip
      */
-    @Column(name = "log_ip")
+    @Excel(name = "请求ip", autoSize = true)
     private String logIp;
 
     /**
-     * 創建時間
+     * 创建时间
      */
-    @Column(name = "created_time")
+    @Excel(name = "创建时间", autoSize = true)
     private String createdTime;
 
-    /**
-     * 創建人
-     */
-    @Column(name = "created_by")
-    private String createdBy;
 }

@@ -1,10 +1,8 @@
 package com.arno.blog.controller;
 
-import com.arno.blog.framework.utils.Pageable;
-import com.arno.blog.pojo.Result;
 import com.arno.blog.pojo.Type;
 import com.arno.blog.service.TypeService;
-import lombok.extern.slf4j.Slf4j;
+import com.arno.blog.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,25 +13,19 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
- * <p>
- * 帖子類型表前端控制器
- * </p>
- *
- * @author 稽哥
- * @date 2020-02-07 14:04:12
+ * @Author: 杨德石
+ * @Date: 2020/2/9 16:27
  * @Version 1.0
  */
 @RestController
 @RequestMapping("/type")
-@Slf4j
 public class TypeController {
 
     @Autowired
     private TypeService typeService;
 
     /**
-     * 保存
-     *
+     * 添加类型
      * @param type
      * @return
      */
@@ -44,18 +36,27 @@ public class TypeController {
     }
 
     /**
-     * 查詢所有
+     * 后台查询所有
      * @return
      */
-    @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public Result<List<Type>> all() {
-        List<Type> list = typeService.getAll();
-        return new Result<>(list);
+    @RequestMapping(value = "/listBack", method = RequestMethod.GET)
+    public Result<List<Type>> list() {
+        List<Type> typeList = typeService.getAll();
+        return new Result<>(typeList);
     }
 
     /**
-     * 更新
-     *
+     * 前台查询所有
+     * @return
+     */
+    @RequestMapping(value = "/getList", method = RequestMethod.GET)
+    public Result<List<Type>> getList() {
+        List<Type> typeList = typeService.getTypeList();
+        return new Result<>(typeList);
+    }
+
+    /**
+     * 根据id更新
      * @param type
      * @return
      */
@@ -66,40 +67,47 @@ public class TypeController {
     }
 
     /**
-     * 根據id查詢
-     *
+     * 根据id查询
      * @param id
      * @return
      */
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
-    public Result<Type> get(@PathVariable Integer id) {
-        Type type = typeService.findById(id);
+    public Result<Type> getById(@PathVariable Integer id) {
+        Type type = typeService.getById(id);
         return new Result<>(type);
     }
 
     /**
-     * 分頁查詢
-     *
-     * @param page
+     * 根据id启用
+     * @param id
      * @return
      */
-    @RequestMapping(value = "/getByPage", method = RequestMethod.POST)
-    public Result<Pageable<Type>> getByPage(@RequestBody Pageable<Type> page) {
-        page = typeService.findAutoByPage(page);
-        return new Result<>(page);
+    @RequestMapping(value = "/enable/{id}", method = RequestMethod.PUT)
+    public Result<Object> enable(@PathVariable Integer id) {
+        typeService.enableById(id);
+        return new Result<>("已启用");
     }
 
     /**
-     * 根據id刪除
-     *
-     * @param type
+     * 根据id弃用
+     * @param id
      * @return
      */
-    @RequestMapping(value = "/delete", method = RequestMethod.PUT)
-    public Result<Object> delete(@RequestBody Type type) {
-        typeService.removeById(type.getTypeId());
-        return new Result<>("刪除成功！");
+    @RequestMapping(value = "/disable/{id}", method = RequestMethod.PUT)
+    public Result<Object> disable(@PathVariable Integer id) {
+        typeService.disableById(id);
+        return new Result<>("已弃用");
+    }
+
+    /**
+     * 根据id删除
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+    public Result<Object> delete(@PathVariable Integer id) {
+        typeService.deleteById(id);
+        return new Result<>("删除成功！");
     }
 
 }
-

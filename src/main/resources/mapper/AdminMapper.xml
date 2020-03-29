@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.arno.blog.mapper.AdminMapper">
-    <!-- 通用查詢映射結果 -->
+    <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.arno.blog.pojo.Admin">
         <id column="id" property="id"/>
         <result column="name" property="name"/>
@@ -12,15 +12,45 @@
         <result column="password" property="password"/>
     </resultMap>
 
-    <!-- 通用查詢結果列 -->
+    <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, name, header, signature, comment, username, password
     </sql>
+    <update id="update" parameterType="com.arno.blog.pojo.Admin">
+        update bl_admin
+        <set>
+            <if test="name!=null and name!=''">
+                name = #{name},
+            </if>
+            <if test="header!=null and header!=''">
+                header = #{header},
+            </if>
+            <if test="signature!=null and signature!=''">
+                signature = #{signature},
+            </if>
+            <if test="comment!=null and comment!=''">
+                comment = #{comment},
+            </if>
+            <if test="username!=null and username!=''">
+                username = #{username},
+            </if>
+            <if test="password!=null and password!=''">
+                password = #{password},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
     <select id="getByUsername" resultMap="BaseResultMap">
         select
-        <include refid="Base_Column_List"></include>
+        name, header, signature, username, password
         from bl_admin
         where username = #{value}
+    </select>
+    <select id="getAdmin" resultMap="BaseResultMap">
+        select
+        id, name, header, signature, comment, username
+        from bl_admin
+        limit 1
     </select>
 
 </mapper>
