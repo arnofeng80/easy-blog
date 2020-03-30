@@ -1,15 +1,15 @@
 package com.arno.blog.service.impl;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.arno.blog.enums.StateEnums;
 import com.arno.blog.mapper.MusicMapper;
 import com.arno.blog.pojo.Music;
 import com.arno.blog.service.MusicService;
 import com.arno.blog.utils.Page;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * <p>
@@ -20,7 +20,6 @@ import java.util.List;
  * @Version 1.0
  */
 @Service
-@Slf4j
 public class MusicServiceImpl implements MusicService {
 
     @Autowired

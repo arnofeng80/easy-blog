@@ -10,14 +10,14 @@ import java.util.Map;
 /**
  * 分页对象
  *
- * @Author: 杨德石
  * @Date: 2020/2/9 19:14
  * @Version 1.0
  */
 @Data
 public class Page<T> implements Serializable {
+	private static final long serialVersionUID = 1488077761027360326L;
 
-    private static final String SORT_ASC = "asc";
+	private static final String SORT_ASC = "asc";
 
     private static final String SORT_DESC = "desc";
 

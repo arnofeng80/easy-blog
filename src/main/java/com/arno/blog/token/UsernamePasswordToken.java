@@ -10,7 +10,9 @@ package com.arno.blog.token;
  * @author yds
  */
 public class UsernamePasswordToken extends org.apache.shiro.authc.UsernamePasswordToken {
-    /**
+
+	private static final long serialVersionUID = 490662981601929197L;
+	/**
      * 用户标识。0标识管理员，1表示普通用户
      */
     private int state = 1;

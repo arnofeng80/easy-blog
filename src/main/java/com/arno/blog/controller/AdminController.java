@@ -1,5 +1,20 @@
 package com.arno.blog.controller;
 
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.arno.blog.enums.ResultEnum;
 import com.arno.blog.enums.StateEnums;
 import com.arno.blog.pojo.Admin;
@@ -8,22 +23,6 @@ import com.arno.blog.token.UsernamePasswordToken;
 import com.arno.blog.utils.Result;
 import com.arno.blog.utils.ShiroUtils;
 import com.arno.blog.utils.StringUtils;
-
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.subject.Subject;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @Author: 杨德石
@@ -66,7 +65,7 @@ public class AdminController {
     @RequestMapping(value = "/logout")
 	public Result<Object> logout(HttpServletRequest request) {
 		SecurityUtils.getSubject().logout();
-		return new Result();
+		return new Result<Object>();
 	}
 
     /**

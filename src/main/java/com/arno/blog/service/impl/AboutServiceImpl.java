@@ -1,5 +1,11 @@
 package com.arno.blog.service.impl;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.arno.blog.enums.ResultEnum;
 import com.arno.blog.enums.StateEnums;
 import com.arno.blog.exception.BlogException;
@@ -7,12 +13,6 @@ import com.arno.blog.mapper.AboutMapper;
 import com.arno.blog.pojo.About;
 import com.arno.blog.service.AboutService;
 import com.arno.blog.utils.Page;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 /**
  * <p>
@@ -23,7 +23,6 @@ import java.util.List;
  * @Version 1.0
  */
 @Service
-@Slf4j
 public class AboutServiceImpl implements AboutService {
 
     @Autowired

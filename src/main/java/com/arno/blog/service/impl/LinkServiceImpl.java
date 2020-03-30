@@ -1,13 +1,13 @@
 package com.arno.blog.service.impl;
 
-import com.arno.blog.mapper.LinkMapper;
-import com.arno.blog.pojo.Link;
-import com.arno.blog.service.LinkService;
-import lombok.extern.slf4j.Slf4j;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import com.arno.blog.mapper.LinkMapper;
+import com.arno.blog.pojo.Link;
+import com.arno.blog.service.LinkService;
 
 /**
  * <p>
@@ -19,7 +19,6 @@ import java.util.List;
  *
  */
 @Service
-@Slf4j
 public class LinkServiceImpl implements LinkService {
 
     @Autowired

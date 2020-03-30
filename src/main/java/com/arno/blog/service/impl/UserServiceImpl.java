@@ -1,5 +1,12 @@
 package com.arno.blog.service.impl;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.arno.blog.dao.CollectionDao;
 import com.arno.blog.dao.CommentDao;
 import com.arno.blog.enums.ResultEnum;
@@ -10,13 +17,6 @@ import com.arno.blog.service.UserService;
 import com.arno.blog.utils.Md5Utils;
 import com.arno.blog.utils.Page;
 import com.arno.blog.utils.ShiroUtils;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * <p>
@@ -28,7 +28,6 @@ import java.util.Map;
  * @Version 1.0
  */
 @Service
-@Slf4j
 public class UserServiceImpl implements UserService {
 
     @Autowired

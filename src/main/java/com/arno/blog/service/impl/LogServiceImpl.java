@@ -1,17 +1,17 @@
 package com.arno.blog.service.impl;
 
+import java.util.List;
+
+import org.apache.poi.ss.usermodel.Workbook;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.arno.blog.excel.entity.ExportParams;
 import com.arno.blog.excel.handler.ExcelExportHandler;
 import com.arno.blog.mapper.LogMapper;
 import com.arno.blog.pojo.Log;
 import com.arno.blog.service.LogService;
 import com.arno.blog.utils.Page;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * <p>
@@ -24,7 +24,6 @@ import java.util.List;
  *
  */
 @Service
-@Slf4j
 public class LogServiceImpl implements LogService {
 
     @Autowired

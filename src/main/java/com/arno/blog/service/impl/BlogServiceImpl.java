@@ -1,5 +1,15 @@
 package com.arno.blog.service.impl;
 
+import java.util.List;
+
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.arno.blog.dao.BlogGoodsDao;
 import com.arno.blog.dao.CollectionDao;
 import com.arno.blog.mapper.BlogMapper;
@@ -14,16 +24,6 @@ import com.arno.blog.utils.IdWorker;
 import com.arno.blog.utils.Page;
 import com.arno.blog.utils.ShiroUtils;
 import com.arno.blog.vo.BlogVo;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 /**
  * <p>
@@ -35,7 +35,6 @@ import java.util.List;
  * @Version 1.0
  */
 @Service
-@Slf4j
 public class BlogServiceImpl implements BlogService {
 
     @Autowired
@@ -183,9 +182,9 @@ public class BlogServiceImpl implements BlogService {
         User user = (User) ShiroUtils.getLoginUser();
         BlogCollection blogCollection = new BlogCollection();
         blogCollection.setUserId(user.getUserId());
-        Example example = Example.of(blogCollection);
+        Example<BlogCollection> example = Example.of(blogCollection);
         Pageable pageable = PageRequest.of(page.getCurrentPage() - 1, page.getPageSize());
-        org.springframework.data.domain.Page p = collectionDao.findAll(example, pageable);
+        org.springframework.data.domain.Page<BlogCollection> p = collectionDao.findAll(example, pageable);
         page.setTotalCount((int) p.getTotalElements());
         page.setTotalPage(p.getTotalPages());
         page.setList(p.getContent());

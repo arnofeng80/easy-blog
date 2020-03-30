@@ -1,15 +1,15 @@
 package com.arno.blog.service.impl;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.arno.blog.enums.StateEnums;
 import com.arno.blog.exception.BlogException;
 import com.arno.blog.mapper.TypeMapper;
 import com.arno.blog.pojo.Type;
 import com.arno.blog.service.TypeService;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * <p>
@@ -21,7 +21,6 @@ import java.util.List;
  * @Version 1.0
  */
 @Service
-@Slf4j
 public class TypeServiceImpl implements TypeService {
 
     @Autowired

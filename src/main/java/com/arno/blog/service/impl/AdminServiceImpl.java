@@ -1,11 +1,11 @@
 package com.arno.blog.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.arno.blog.mapper.AdminMapper;
 import com.arno.blog.pojo.Admin;
 import com.arno.blog.service.AdminService;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 /**
  * <p>
@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
  * @Version 1.0
  */
 @Service
-@Slf4j
 public class AdminServiceImpl implements AdminService {
 
     @Autowired

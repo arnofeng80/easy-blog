@@ -16,13 +16,8 @@ import com.google.common.collect.Lists;
 /**
  * 反射工具类
  *
- * @author 高尔稽
  */
 public class ReflectionUtils {
-
-    private static final String SETTER_PREFIX = "set";
-
-    private static final String GETTER_PREFIX = "get";
 
     private static final String CGLIB_CLASS_SEPARATOR = "$$";
 
@@ -161,8 +156,8 @@ public class ReflectionUtils {
     public static void makeAccessible(Method method) {
         boolean flag = (!Modifier.isPublic(method.getModifiers()) || !Modifier.isPublic(method.getDeclaringClass().getModifiers()))
                 && !method.isAccessible();
-        if (false) {
-            method.setAccessible(true);
+        if (flag) {
+        	method.setAccessible(true);
         }
     }
 
